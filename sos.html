@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOS - Emergency Contacts</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* Subtle animated background shapes */
+  body::before {
+    content: '';
+    position: absolute;
+    width: 150%;
+    height: 150%;
+    background: radial-gradient(circle at 20% 20%, rgba(255,0,0,0.05), transparent 50%), radial-gradient(circle at 80% 80%, rgba(0,255,255,0.05), transparent 50%);
+    animation: bgMove 20s linear infinite;
+    z-index: 0;
+  }
+
+  @keyframes bgMove {
+    0% { transform: translate(0,0) rotate(0deg); }
+    50% { transform: translate(-50px,50px) rotate(180deg); }
+    100% { transform: translate(0,0) rotate(360deg); }
+  }
+
+  .sos-container {
+    max-width: 650px;
+    width: 100%;
+    background: linear-gradient(145deg, #1f1f1f, #2a2a2a);
+    border-radius: 30px;
+    padding: 35px 30px;
+    text-align: center;
+    position: relative;
+    z-index: 10;
+    box-shadow: 0 0 30px rgba(255,255,255,0.1), 0 10px 40px rgba(0,0,0,0.5);
+  }
+
+  h1 {
+    color: #ff3d00;
+    font-size: 2.4rem;
+    margin-bottom: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    text-shadow: 0 0 8px #ff3d00, 0 0 20px #ff3d00;
+  }
+
+  p.description {
+    font-size: 1rem;
+    color: #ccc;
+    margin-bottom: 40px;
+  }
+
+  /* --- Emergency Buttons Grid --- */
+  .emergency-btns {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-bottom: 40px;
+  }
+
+  .emergency-btns a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 18px 0;
+    border-radius: 20px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    text-decoration: none;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 15px rgba(255,255,255,0.1), 0 5px 15px rgba(0,0,0,0.3);
+    transition: transform 0.3s, box-shadow 0.3s;
+    z-index: 5;
+  }
+
+  .emergency-btns a:hover {
+    transform: translateY(-6px) scale(1.05);
+    box-shadow: 0 0 30px rgba(255,255,255,0.3), 0 10px 30px rgba(0,0,0,0.4);
+  }
+
+  .emergency-btns a span.material-icons {
+    font-size: 30px;
+  }
+
+  /* Neon gradient buttons */
+  .fire { background: linear-gradient(135deg, #ff416c, #ff4b2b); }
+  .medical { background: linear-gradient(135deg, #56ab2f, #a8e063); }
+  .police { background: linear-gradient(135deg, #36d1dc, #5b86e5); }
+  .other { background: linear-gradient(135deg, #f7971e, #ffd200); }
+
+  /* --- Contacts Section --- */
+  .contacts {
+    text-align: left;
+  }
+
+  .contacts h3 {
+    color: #00e5ff;
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+    text-shadow: 0 0 8px #00e5ff;
+  }
+
+  .contacts ul {
+    list-style: none;
+  }
+
+  .contacts li {
+    background: linear-gradient(145deg, #2a2a2a, #1f1f1f);
+    padding: 15px 20px;
+    border-radius: 20px;
+    margin-bottom: 15px;
+    font-size: 1rem;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+  }
+
+  .contacts li:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5), 0 0 15px rgba(255,255,255,0.1);
+  }
+
+  .contacts a.call-btn {
+    background: linear-gradient(135deg,#ff3d00,#ff6b6b);
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 15px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.95rem;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  .contacts a.call-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 15px #ff3d00, 0 5px 15px rgba(0,0,0,0.5);
+  }
+
+  /* Optional: small floating neon lines for gaming vibe */
+  .sos-container::before {
+    content: '';
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    background: repeating-linear-gradient(
+      45deg,
+      rgba(255,255,255,0.02),
+      rgba(255,255,255,0.02) 2px,
+      transparent 2px,
+      transparent 10px
+    );
+    top: -50%;
+    left: -50%;
+    animation: floatLines 25s linear infinite;
+    border-radius: 30px;
+  }
+
+  @keyframes floatLines {
+    0% { transform: rotate(0deg) translate(0,0); }
+    50% { transform: rotate(45deg) translate(30px, -30px); }
+    100% { transform: rotate(0deg) translate(0,0); }
+  }
+</style>
+</head>
+<body>
+
+<div class="sos-container">
+  <h1>🚨 SOS Emergency</h1>
+  <p class="description">Quick access to emergency contacts and services. Tap to call immediately.</p>
+
+  <div class="emergency-btns">
+    <a href="tel:101" class="fire"><span class="material-icons">local_fire_department</span> Fire Emergency</a>
+    <a href="tel:102" class="medical"><span class="material-icons">medical_services</span> Medical Emergency</a>
+    <a href="tel:100" class="police"><span class="material-icons">local_police</span> Police</a>
+    <a href="tel:108" class="other"><span class="material-icons">support_agent</span> Other Helplines</a>
+  </div>
+
+  <div class="contacts">
+    <h3>Other Important Contacts</h3>
+    <ul>
+      <li>
+        Ambulance Service
+        <a href="tel:108" class="call-btn">Call</a>
+      </li>
+      <li>
+        Fire Station, Punjab
+        <a href="tel:101" class="call-btn">Call</a>
+      </li>
+      <li>
+        Local Police Station
+        <a href="tel:100" class="call-btn">Call</a>
+      </li>
+      <li>
+        Disaster Management HQ
+        <a href="tel:+911234567890" class="call-btn">Call</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+</body>
+</html>

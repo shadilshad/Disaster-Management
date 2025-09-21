@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Punjab Disaster Management Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<style>
+  /* --- Global --- */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #f0f4f8, #e3edf9);
+    color: #333;
+  }
+
+  a { text-decoration: none; color: inherit; }
+  img { display: block; }
+
+  /* --- Header --- */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px 50px;
+    background: linear-gradient(135deg, #1f2d5b, #3a5070, #5b86e5);
+    color: #fff;
+    font-size: 1.3rem;
+    font-weight: 500;
+    border-radius: 0 0 20px 20px;
+    position: relative;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+    backdrop-filter: blur(8px);
+    overflow: hidden;
+    height: 160px;
+  }
+
+  .header .user-name {
+    font-size: 1.7rem;
+    font-weight: 700;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+  }
+
+  .header .weather {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 1rem;
+    font-weight: 500;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+  }
+
+  .header .weather span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 1.1rem;
+  }
+
+  .header button {
+    background: linear-gradient(135deg, #0288d1, #26c6da);
+    border: none;
+    padding: 10px 16px;
+    border-radius: 12px;
+    color: #fff;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s;
+    font-size: 0.95rem;
+  }
+
+  .header button:hover {
+    background: linear-gradient(135deg, #01579b, #00bcd4);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+  }
+
+  /* --- Raindrops Animation --- */
+  .raindrop {
+    position: absolute;
+    width: 2px;
+    height: 15px;
+    background: rgba(255,255,255,0.7);
+    animation-name: fall;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+
+  @keyframes fall {
+    to { transform: translateY(120vh); }
+  }
+
+  /* --- Main Body --- */
+  .main-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 25px 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    align-items: center;
+  }
+
+  /* --- Video Section --- */
+  .video-container {
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: linear-gradient(145deg, #ffffff, #e0eaff);
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    transition: transform 0.3s;
+  }
+
+  .video-container:hover { transform: translateY(-5px); }
+
+  .video-title {
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: #0277bd;
+    margin-bottom: 15px;
+    align-self: flex-start;
+  }
+
+  video {
+    width: 100%;
+    height: 420px;
+    border-radius: 15px;
+    background-color: #000;
+    object-fit: cover;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+  }
+
+  .video-progress {
+    width: 100%;
+    height: 10px;
+    background: #e0e0e0;
+    border-radius: 5px;
+    margin-top: 10px;
+    overflow: hidden;
+  }
+
+  #progressBar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(135deg, #0288d1, #26c6da);
+    border-radius: 5px;
+    transition: width 0.2s;
+  }
+
+  /* --- Posts Section --- */
+  .posts-section {
+    width: 100%;
+    max-width: 960px;
+  }
+
+  .posts-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .posts-header h2 {
+    color: #0277bd;
+    font-size: 1.6rem;
+    font-weight: 700;
+  }
+
+  .watch-more {
+    color: #01579b;
+    font-weight: 500;
+    font-size: 1rem;
+    position: relative;
+  }
+
+  .watch-more::after {
+    content: '→';
+    margin-left: 5px;
+    transition: transform 0.3s;
+  }
+
+  .watch-more:hover::after { transform: translateX(3px); }
+
+  .posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 22px;
+  }
+
+  .post-card {
+    background: linear-gradient(145deg, #ffffff, #dbeeff);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  .post-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  }
+
+  .post-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+  }
+
+  .post-info {
+    padding: 16px 20px;
+  }
+
+  .post-info h3 {
+    margin-bottom: 6px;
+    font-size: 1.2rem;
+    color: #0277bd;
+  }
+
+  .post-info h4 {
+    margin-bottom: 6px;
+    font-size: 1rem;
+    color: #555;
+  }
+
+  .post-info p {
+    font-size: 0.9rem;
+    color: #777;
+  }
+
+  /* --- Footer --- */
+.footer {
+  width: 100%;
+  padding: 14px 0;
+  display: flex;
+  justify-content: center;
+  background: linear-gradient(135deg, #0277bd, #4facfe);
+  box-shadow: 0 -6px 15px rgba(0,0,0,0.2);
+  position: sticky;
+  bottom: 0;
+  z-index: 50;
+}
+
+.footer-buttons {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.footer-btn {
+  background: linear-gradient(145deg, #4facfe, #00f2fe);
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  border-radius: 18px;
+  font-size: 0.75rem;
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+  color: #fff;
+  transition: transform 0.3s, box-shadow 0.3s;
+  position: relative;
+  text-align: center;
+}
+
+.footer-btn .material-icons {
+  font-size: 28px;
+  margin-bottom: 4px;
+}
+
+.footer-btn .btn-text {
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.footer-btn:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+}
+
+.center-btn {
+  width: 70px;
+  height: 70px;
+  font-size: 0.85rem;
+  background: linear-gradient(135deg, #f093fb, #f5576c);
+}
+
+.badge {
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  width: 12px;
+  height: 12px;
+  background: #ff3d00;
+  color: #fff;
+  font-size: 10px;
+  font-weight: bold;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+  .center-btn {
+    width: 70px;
+    height: 70px;
+    font-size: 0.85rem;
+    background: linear-gradient(135deg, #f093fb, #f5576c);
+  }
+
+  .footer-btn span.material-icons {
+    font-size: 28px;
+    margin-bottom: 4px;
+  }
+
+  /* --- Weather Overlay --- */
+  #weatherOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 0, 0, 0.3);
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+.quiz-container {
+  width: 100%;
+  max-width: 700px;
+  background: linear-gradient(145deg, #ffffff, #e0f0ff);
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  margin-top: 30px;
+}
+
+.quiz-card {
+  margin-bottom: 20px;
+  padding: 12px;
+  border-radius: 12px;
+  background: #f9fbff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.quiz-card p { margin-bottom: 8px; font-weight:500; color:#0277bd; }
+.quiz-card label { cursor:pointer; display:block; margin-bottom:5px; color:#333; }
+
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="header">
+  <div class="user-name">Hi Shadil...</div>
+  <div class="weather">
+    <span id="weatherIcon">🌧️</span>
+    <span id="temperature">25°C</span>
+    <span id="weatherText">Rainy</span>
+    <button class="alert-btn" onclick="toggleAlert()">Toggle Alert ⚠️</button>
+  </div>
+</header>
+
+<!-- Main Body -->
+<div class="main-body">
+  <!-- Video Section -->
+  <div class="video-container">
+    <h2 class="video-title">Earthquake Safety Instructions</h2>
+    <video id="instructionVideo" src="When The Earth Shakes - Animated Video.mp4" controls></video>
+    <div class="video-progress"><div id="progressBar"></div></div>
+  </div>
+
+
+  <!-- Quiz Section (Initially Hidden) -->
+<div class="quiz-container" id="quizContainer" style="display:none;">
+  <h2 class="video-title">Earthquake Quiz 📝</h2>
+  <div class="quiz-card">
+    <p><strong>Q1:</strong> What is the safest action during an earthquake?</p>
+    <label><input type="radio" name="q1" value="a"> Run outside immediately</label><br>
+    <label><input type="radio" name="q1" value="b"> Take cover under a sturdy table</label><br>
+    <label><input type="radio" name="q1" value="c"> Stand near windows</label>
+  </div>
+  <div class="quiz-card">
+    <p><strong>Q2:</strong> What should you avoid during an earthquake?</p>
+    <label><input type="radio" name="q2" value="a"> Using elevators</label><br>
+    <label><input type="radio" name="q2" value="b"> Staying under heavy furniture</label><br>
+    <label><input type="radio" name="q2" value="c"> Following emergency exits</label>
+  </div>
+  <button id="submitQuiz" style="margin-top:15px;padding:10px 20px;border:none;border-radius:8px;background:#0277bd;color:#fff;cursor:pointer;">Submit Quiz</button>
+  <p id="quizResult" style="margin-top:10px;font-weight:600;"></p>
+</div>
+
+
+  <!-- Posts Section -->
+  <div class="posts-section">
+    <div class="posts-header">
+      <a href="#" class="watch-more">Watch more</a>
+      <h2>Recent Posts</h2>
+    </div>
+    <div class="posts-grid">
+      <div class="post-card">
+        <img src="images.jpeg" alt="Post 1">
+        <div class="post-info">
+          <h3>Help Punjab by donating</h3>
+          <h4>Flood | Punjab | 2025</h4>
+          <p>Shared by: Anil Kumar</p>
+        </div>
+      </div>
+      <div class="post-card">
+        <img src="earthquake-safety-rules-instruction-vector-260nw-2348736933.webp" alt="Post 2">
+        <div class="post-info">
+          <h3>Instructions to follow</h3>
+          <h4>Earthquake Instructions</h4>
+          <p>Shared by: Salil</p>
+        </div>
+      </div>
+      <div class="post-card">
+        <img src="80mihmq76b3bk1753nfrl0qcuq-20240911135425.Medi.jpeg" alt="Post 3">
+        <div class="post-info">
+          <h3>Earthquake Breaking</h3>
+          <h4>Earthquake | Punjab</h4>
+          <p>Shared by: Shadil Shad</p>
+        </div>
+      </div>
+      <div class="post-card">
+        <img src="5ff488863b17a985be7668fe29356b1c_1280X720.webp" alt="Post 4">
+        <div class="post-info">
+          <h3>Breaking News</h3>
+          <h4>Punjab Flood live</h4>
+          <p>Shared by: Priya Kaur</p>
+        </div>
+      </div>
+      <div class="post-card">
+        <img src="How-To-Conduct-An-Emergency-Mock-Drill.png" alt="Post 5">
+        <div class="post-info">
+          <h3>Emergency Mock Drill</h3>
+          <h4>How to conduct a mock drill</h4>
+          <p>Shared by: John Doe</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-buttons">
+    <a href="sos.html" class="footer-btn">
+      <span class="material-icons">warning</span>
+      <span class="btn-text">SOS</span>
+    </a>
+    <a href="alert.html" class="footer-btn">
+      <span class="material-icons">notification_important</span>
+      <span class="btn-text">Alert</span>
+      <span class="badge">!</span>
+    </a>
+    <a href="region.html" class="footer-btn">
+      <span class="material-icons">map</span>
+      <span class="btn-text">Region</span>
+    </a>
+    <a href="post.html" class="footer-btn center-btn">
+      <span class="material-icons">add_circle</span>
+      <span class="btn-text">Post</span>
+    </a>
+    <a href="upcoming.html" class="footer-btn">
+      <span class="material-icons">event</span>
+      <span class="btn-text">Upcoming</span>
+    </a>
+    <a href="leaderboard.html" class="footer-btn">
+      <span class="material-icons">leaderboard</span>
+      <span class="btn-text">Leaderboard</span>
+    </a>
+    <a href="profile.html" class="footer-btn">
+      <span class="material-icons">person</span>
+      <span class="btn-text">Profile</span>
+    </a>
+  </div>
+</footer>
+
+<div id="weatherOverlay"></div>
+
+<script>
+let weatherStatus = 'normal';
+const weatherOverlay = document.getElementById('weatherOverlay');
+const weatherText = document.getElementById('weatherText');
+const weatherIcon = document.getElementById('weatherIcon');
+const temperature = document.getElementById('temperature');
+
+function updateWeather(status, temp) {
+  if(status === 'normal'){
+    weatherText.textContent = 'Normal';
+    weatherIcon.textContent = '☀️';
+    temperature.textContent = temp + '°C';
+    weatherOverlay.style.opacity = 0;
+  } else if(status === 'rain'){
+    weatherText.textContent = 'Rainy';
+    weatherIcon.textContent = '🌧️';
+    temperature.textContent = temp + '°C';
+    weatherOverlay.style.opacity = 0;
+  } else if(status === 'red'){
+    weatherText.textContent = 'Heavy Alert';
+    weatherIcon.textContent = '⚠️';
+    temperature.textContent = temp + '°C';
+    weatherOverlay.style.opacity = 0.4;
+  }
+}
+
+function toggleAlert() {
+  if(weatherStatus === 'red'){
+    weatherStatus = 'normal';
+    updateWeather('normal', 25);
+  } else {
+    weatherStatus = 'red';
+    updateWeather('red', 32);
+  }
+}
+
+updateWeather('rain', 25);
+
+// Video Progress
+const video = document.getElementById('instructionVideo');
+const progressBar = document.getElementById('progressBar');
+video.pause();
+video.addEventListener('timeupdate', () => {
+  const percent = (video.currentTime / video.duration) * 100;
+  progressBar.style.width = percent + '%';
+});
+
+// Raindrops Animation
+const header = document.querySelector('.header');
+for(let i=0; i<50; i++){
+  let drop = document.createElement('div');
+  drop.className = 'raindrop';
+  drop.style.left = Math.random()*100 + '%';
+  drop.style.top = '-20px';
+  drop.style.animationDuration = (0.5 + Math.random()*1) + 's';
+  drop.style.opacity = Math.random() * 0.7 + 0.3;
+  header.appendChild(drop);
+}
+
+video.addEventListener('ended', () => {
+  document.getElementById('quizContainer').style.display = 'block';
+});
+
+// Simple quiz grading
+document.getElementById('submitQuiz').addEventListener('click', () => {
+  let score = 0;
+  const answers = { q1: 'b', q2: 'a' };
+  
+  for (let q in answers) {
+    const selected = document.querySelector(`input[name="${q}"]:checked`);
+    if (selected && selected.value === answers[q]) score++;
+  }
+  
+  document.getElementById('quizResult').textContent = `Your Score: ${score} / 2`;
+});
+
+</script>
+</body>
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>School Login Portal</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+    body {
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(15px);
+      border-radius: 25px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      padding: 50px 30px;
+      width: 90%;
+      max-width: 500px;
+      text-align: center;
+      min-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .school-image img {
+      width: 70%;
+      max-width: 250px;
+      margin-bottom: 30px;
+      border-radius: 10%;
+      border: #6a11cb solid 2px;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-15px); }
+    }
+
+    h1 {
+      color: #fff;
+      margin-bottom: 30px;
+      text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    }
+
+    .roles {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .role-card {
+      flex: 1 1 140px;
+      background: #e8f0f7;
+      padding: 20px 15px;
+      border-radius: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      color: #333;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .role-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+      background: #dce7f1;
+    }
+
+    .role-card img {
+      width: 60px;
+      margin-bottom: 10px;
+    }
+
+    .role-card h2 {
+      margin: 0;
+      font-size: 1.1rem;
+    }
+
+    .id-section {
+      display: none;
+      flex-direction: column;
+      margin-top: 20px;
+      align-items: center;
+    }
+
+    .id-section input {
+      padding: 12px;
+      border-radius: 12px;
+      border: none;
+      width: 100%;
+      max-width: 250px;
+      margin-bottom: 10px; /* smaller gap between ID and Password */
+      font-size: 1rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      transition: all 0.3s ease;
+    }
+
+    .id-section input:focus {
+      outline: none;
+      transform: scale(1.02);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+    }
+
+    .continue-btn {
+      padding: 12px 25px;
+      font-size: 1rem;
+      border-radius: 25px;
+      border: none;
+      background: linear-gradient(135deg, #ff512f 0%, #dd2476 100%);
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+
+    .continue-btn:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+    }
+
+    footer {
+      font-size: 0.85rem;
+      color: #fff;
+    }
+
+    footer a {
+      color: #ffd700;
+      text-decoration: underline;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    footer a:hover {
+      color: #fff;
+    }
+
+    @media(max-width: 500px){
+      .role-card { flex: 1 1 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="school-image">
+      <img src="download.jpeg" alt="Cartoon School">
+    </div>
+
+    <h1>Choose Your Role</h1>
+    <div class="roles">
+      <div class="role-card" data-role="Student">
+        <img src="graduating-student.png" alt="Student">
+        <h2>Student</h2>
+      </div>
+      <div class="role-card" data-role="Teacher">
+        <img src="teacher.png" alt="Teacher">
+        <h2>Teacher</h2>
+      </div>
+      <div class="role-card" data-role="Parent">
+        <img src="family.png" alt="Parent">
+        <h2>Parent</h2>
+      </div>
+    </div>
+
+    <div class="id-section">
+      <label id="roleLabel" style="color:#fff; font-weight:bold; margin-bottom:10px;">Enter Your ID</label>
+      <input type="text" id="userID" placeholder="Enter ID" required>
+      <input type="password" id="userPassword" placeholder="Enter Password" required>
+      <a href="main.html" class="continue-btn">Continue</a>
+    </div>
+
+    <footer>
+      Don't know your code? <a href="signup.html">Click here</a>
+    </footer>
+  </div>
+
+  <script>
+    const roleCards = document.querySelectorAll('.role-card');
+    const idSection = document.querySelector('.id-section');
+    const roleLabel = document.getElementById('roleLabel');
+
+    roleCards.forEach(card => {
+      card.addEventListener('click', () => {
+        const selectedRole = card.dataset.role;
+        roleLabel.textContent = `Enter Your ${selectedRole} ID`;
+        idSection.style.display = 'flex';
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+      });
+    });
+  </script>
+
+</body>
+</html>

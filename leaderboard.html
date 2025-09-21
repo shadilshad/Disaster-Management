@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leaderboard - Punjab Disaster Management</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 30px;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* subtle floating background animation */
+  body::before {
+    content: '';
+    position: absolute;
+    width: 150%;
+    height: 150%;
+    background: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.03), transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(0,255,255,0.03), transparent 50%);
+    animation: bgMove 25s linear infinite;
+    z-index: 0;
+  }
+  @keyframes bgMove {
+    0% { transform: translate(0,0) rotate(0deg); }
+    50% { transform: translate(-50px,50px) rotate(180deg); }
+    100% { transform: translate(0,0) rotate(360deg); }
+  }
+
+  .leaderboard-card {
+    width: 100%;
+    max-width: 1000px;
+    background: linear-gradient(145deg, #1f1f1f, #2a2a2a);
+    border-radius: 30px;
+    padding: 40px 35px;
+    position: relative;
+    z-index: 10;
+    box-shadow: 0 0 40px rgba(0,0,0,0.5), 0 10px 30px rgba(255,255,255,0.05);
+  }
+
+  /* Tabs */
+  .tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 35px;
+    gap: 20px;
+  }
+  .tab-btn {
+    padding: 14px 30px;
+    border: none;
+    border-radius: 20px;
+    background: #3a3a3a;
+    color: #ccc;
+    font-weight: 500;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  }
+  .tab-btn.active {
+    background: linear-gradient(135deg, #ff416c, #ff4b2b);
+    color: #fff;
+    text-shadow: 0 0 8px #ff4b2b;
+    box-shadow: 0 0 20px #ff4b2b, 0 10px 30px rgba(0,0,0,0.5);
+  }
+
+  /* My Progress */
+  .progress-section {
+    display: none;
+    text-align: center;
+    padding: 30px;
+  }
+  .badge {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 20px;
+    border: 4px solid #ff4b2b;
+    box-shadow: 0 0 20px #ff4b2b, 0 10px 20px rgba(0,0,0,0.3);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 20px #ff4b2b, 0 10px 20px rgba(0,0,0,0.3);}
+    50% { transform: scale(1.05); box-shadow: 0 0 35px #ff4b2b, 0 15px 30px rgba(0,0,0,0.4);}
+  }
+
+  .points {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #ff4b2b;
+    margin-bottom: 10px;
+    text-shadow: 0 0 10px #ff4b2b;
+  }
+  .streak, .achievements {
+    font-size: 1rem;
+    color: #ccc;
+    margin-bottom: 8px;
+  }
+
+  /* Top Schools */
+  .schools-section {
+    display: none;
+    width: 100%;
+  }
+  .schools-header {
+    text-align: left;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #00e5ff;
+    margin-bottom: 20px;
+    text-shadow: 0 0 8px #00e5ff;
+  }
+  .school-item {
+    display: flex;
+    justify-content: space-between;
+    background: linear-gradient(145deg, #2a2a2a, #1f1f1f);
+    padding: 15px 20px;
+    border-radius: 20px;
+    margin-bottom: 15px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    position: relative;
+  }
+  .school-item:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 0 20px rgba(0,255,255,0.3), 0 15px 25px rgba(0,0,0,0.5);
+  }
+  .school-rank {
+    font-weight: 700;
+    color: #ff4b2b;
+  }
+  .school-name {
+    font-weight: 500;
+    color: #fff;
+  }
+  .school-points {
+    font-weight: 600;
+    color: #ccc;
+  }
+
+  @media(max-width: 700px){
+    .leaderboard-card { padding: 30px 20px; }
+    .tabs { flex-direction: column; gap: 12px; }
+  }
+
+</style>
+</head>
+<body>
+
+<div class="leaderboard-card">
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showSection('progress')">My Progress</button>
+    <button class="tab-btn" onclick="showSection('schools')">Top Schools</button>
+  </div>
+
+  <!-- My Progress -->
+  <div class="progress-section" id="progress-section" style="display:block;">
+    <img src="coin.png" alt="Bronze Badge" class="badge">
+    <div class="points">1250 Points</div>
+    <div class="streak">🔥 5-day Streak</div>
+    <div class="achievements">🏅 Badges Earned: 3</div>
+  </div>
+
+  <!-- Top Schools -->
+  <div class="schools-section" id="schools-section">
+    <div class="schools-header">Top 10 Schools</div>
+    <div class="school-item">
+      <span class="school-rank">1</span>
+      <span class="school-name">Excel Engineering College</span>
+      <span class="school-points">3500 pts</span>
+    </div>
+    <div class="school-item">
+      <span class="school-rank">2</span>
+      <span class="school-name">Punjab Public School</span>
+      <span class="school-points">3200 pts</span>
+    </div>
+    <div class="school-item">
+      <span class="school-rank">3</span>
+      <span class="school-name">Central High School</span>
+      <span class="school-points">3000 pts</span>
+    </div>
+    <div class="school-item">
+      <span class="school-rank">4</span>
+      <span class="school-name">St. Mary’s School</span>
+      <span class="school-points">2800 pts</span>
+    </div>
+    <div class="school-item">
+      <span class="school-rank">5</span>
+      <span class="school-name">Guru Nanak Academy</span>
+      <span class="school-points">2600 pts</span>
+    </div>
+    <div class="school-item">
+      <span class="school-rank">6</span>
+      <span class="school-name">Riverdale School</span>
+      <span class="school-points">2400 pts</span>
+    </div>
+    <div class="school-item">
+      <span class="school-rank">7</span>
+      <span class="school-name">Springfield College</span>
+      <span class="school-points">2200 pts</span>
+    </div>
+    <div class="school-item">
+      <span class="school-rank">8</span>
+      <span class="school-name">Sunrise Academy</span>
+      <span class="school-points">2000 pts</span>
+    </div>
+    <div class="school-item">
+      <span class="school-rank">9</span>
+      <span class="school-name">Evergreen High</span>
+      <span class="school-points">1800 pts</span>
+    </div>
+    <div class="school-item">
+      <span class="school-rank">10</span>
+      <span class="school-name">Hilltop School</span>
+      <span class="school-points">1600 pts</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  function showSection(section){
+    document.getElementById('progress-section').style.display = 'none';
+    document.getElementById('schools-section').style.display = 'none';
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+
+    if(section === 'progress'){
+      document.getElementById('progress-section').style.display = 'block';
+      document.querySelector('.tab-btn[onclick="showSection(\'progress\')"]').classList.add('active');
+    } else {
+      document.getElementById('schools-section').style.display = 'block';
+      document.querySelector('.tab-btn[onclick="showSection(\'schools\')"]').classList.add('active');
+    }
+  }
+</script>
+
+</body>
+</html>

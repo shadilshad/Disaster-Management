@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Punjab Disaster Map</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+  <style>
+    html, body { height:100%; margin:0; }
+    #map { height:100vh; }
+    .map-title {
+      position:absolute; top:12px; left:50%; transform:translateX(-50%);
+      background:rgba(0,0,0,0.6); color:#00ffff;
+      padding:6px 16px; border-radius:10px;
+      font-size:20px; font-weight:bold;
+      text-shadow:0 0 8px #00ffff;
+      z-index:1000;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <div class="map-title">⚡ Punjab Disaster Zones ⚡</div>
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    var map = L.map('map');
+
+    // Dark basemap
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; OSM',
+      subdomains: 'abcd',
+      maxZoom: 19
+    }).addTo(map);
+
+    // Punjab outline (rough simplified boundary)
+    var punjab = {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [74.45,32.47],[74.72,32.20],[75.25,32.45],[75.80,32.60],
+          [76.35,32.20],[76.00,31.85],[76.45,31.25],[76.10,30.70],
+          [75.55,30.35],[74.85,30.45],[74.40,30.90],[74.10,31.40],
+          [73.90,31.90],[74.20,32.30],[74.45,32.47]
+        ]]
+      }
+    };
+
+    var boundary = L.geoJSON(punjab, {
+      style: { color:"#00ffff", weight:2, fillOpacity:0 }
+    }).addTo(map);
+
+    map.fitBounds(boundary.getBounds().pad(0.1));
+
+    // Disaster zones (circles instead of polygons)
+    var disasters = [
+      {lat:31.63, lon:74.87, type:"Flood", color:"#00ffff"},
+      {lat:30.91, lon:75.85, type:"Industrial Hazard", color:"#ff0066"},
+      {lat:30.33, lon:76.40, type:"Drought", color:"#ffd700"},
+      {lat:32.05, lon:75.40, type:"Earthquake", color:"#ff4500"}
+    ];
+
+    disasters.forEach(function(d) {
+      L.circle([d.lat, d.lon], {
+        radius: 20000,   // 20 km
+        color: d.color,
+        weight: 2,
+        fillColor: d.color,
+        fillOpacity: 0.4
+      }).bindPopup("<b>"+d.type+"</b>").addTo(map);
+    });
+  </script>
+</body>
+</html>

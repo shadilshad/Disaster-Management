@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weather Alert - Punjab Disaster Management</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Roboto', sans-serif;
+    background: #e0f2f1;
+    padding: 20px;
+  }
+
+  /* Header */
+  .alert-header {
+    background: linear-gradient(to bottom, #0d47a1, #1976d2);
+    color: #fff;
+    border-radius: 15px;
+    padding: 25px 20px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    margin-bottom: 30px;
+  }
+
+  /* Raindrop animation */
+  .raindrop {
+    position: absolute;
+    width: 2px;
+    height: 15px;
+    background: rgba(255,255,255,0.7);
+    animation: fall 1s linear infinite;
+    top: -20px;
+  }
+  @keyframes fall {
+    to { transform: translateY(120vh); }
+  }
+
+  .weather-info { font-size: 1.2rem; margin-bottom: 8px; }
+  .weather-title { font-size: 2rem; font-weight: 700; }
+
+  /* Instructions Grid */
+  .instructions {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+  }
+
+  .instruction-card {
+    background: #ffffff;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .instruction-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 22px rgba(0,0,0,0.15);
+  }
+
+  .instruction-card .icon {
+    font-size: 40px;
+    color: #0277bd;
+    flex-shrink: 0;
+  }
+
+  .instruction-card h4 {
+    color: #0277bd;
+    margin-bottom: 5px;
+    font-size: 1.1rem;
+  }
+
+  .instruction-card p {
+    font-size: 0.95rem;
+    color: #333;
+    line-height: 1.4;
+  }
+
+  @media(max-width: 500px){
+    .alert-header { padding: 20px 15px; }
+    .weather-title { font-size: 1.6rem; }
+    .instruction-card { flex-direction: column; align-items: center; text-align: center; }
+    .instruction-card .icon { font-size: 35px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="alert-header">
+  <div class="weather-info">25°C | Raining</div>
+  <div class="weather-title">Heavy Rain & Thunderstorm</div>
+  <!-- Generate raindrops -->
+  <script>
+    for(let i=0;i<50;i++){
+      let drop = document.createElement('div');
+      drop.className = 'raindrop';
+      drop.style.left = Math.random()*100 + 'vw';
+      drop.style.animationDuration = (0.5 + Math.random()*1) + 's';
+      document.body.appendChild(drop);
+    }
+  </script>
+</div>
+
+<!-- Instructions -->
+<div class="instructions">
+  <div class="instruction-card">
+    <span class="material-icons icon">home</span>
+    <div>
+      <h4>Stay Indoors</h4>
+      <p>Do not go outside during heavy rain or thunderstorm. Wait for the storm to pass.</p>
+    </div>
+  </div>
+
+  <div class="instruction-card">
+    <span class="material-icons icon">power_off</span>
+    <div>
+      <h4>Avoid Electrical Appliances</h4>
+      <p>Do not use electrical appliances and avoid contact with wires and plugs.</p>
+    </div>
+  </div>
+
+  <div class="instruction-card">
+    <span class="material-icons icon">grass</span>
+    <div>
+      <h4>Secure Outdoor Items</h4>
+      <p>Bring inside loose items like furniture, plants, or anything that can blow away.</p>
+    </div>
+  </div>
+
+  <div class="instruction-card">
+    <span class="material-icons icon">water_drop</span>
+    <div>
+      <h4>Stay Away from Water</h4>
+      <p>Avoid rivers, ponds, and puddles that may rise suddenly or carry electrical currents.</p>
+    </div>
+  </div>
+
+  <div class="instruction-card">
+    <span class="material-icons icon">call</span>
+    <div>
+      <h4>Emergency Contacts</h4>
+      <p>Keep local emergency numbers handy, such as fire, medical, and police services.</p>
+    </div>
+  </div>
+
+  <div class="instruction-card">
+    <span class="material-icons icon">notifications</span>
+    <div>
+      <h4>Stay Updated</h4>
+      <p>Monitor weather updates through trusted channels and follow government advisories.</p>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

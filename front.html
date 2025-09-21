@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>School Data Portal</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ---------- HEADER ---------- */
+    header {
+      width: 100%;
+      padding: 15px 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    .logo img {
+      height: 50px;
+      cursor: pointer;
+      border-radius: 70%;
+    }
+
+    .title {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #fff;
+      text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    }
+
+    .language select {
+      padding: 8px 14px;
+      border-radius: 20px;
+      border: none;
+      background: rgba(255, 255, 255, 0.85);
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .language select:hover {
+      background: #fff;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    /* ---------- TOP IMAGE ---------- */
+    .school-image {
+      width: 100%;
+      height: 50vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+    }
+
+    .school-image img {
+      max-height: 80%;
+      max-width: 90%;
+      object-fit: contain;
+      animation: float 3s ease-in-out infinite;
+      border-radius: 10%;
+      border: #6a11cb solid 2px;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-15px); }
+    }
+
+    /* ---------- SELECTORS ---------- */
+    .selectors {
+      width: 90%;
+      margin-top: -40px;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(15px);
+      padding: 25px;
+      border-radius: 20px;
+      display: flex;
+      justify-content: space-around;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .selector {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 15px;
+      flex: 1;
+      min-width: 180px;
+      max-width: 250px;
+    }
+
+    .selector label {
+      margin-bottom: 10px;
+      font-weight: bold;
+      color: #fff;
+      font-size: 1.1rem;
+      text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    .selector select {
+      padding: 12px;
+      border: none;
+      border-radius: 12px;
+      width: 100%;
+      font-size: 1rem;
+      background: rgba(255, 255, 255, 0.85);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .selector select:hover {
+      background: #fff;
+      transform: scale(1.05);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+    }
+
+    /* ---------- SUBMIT BUTTON ---------- */
+    .submit-btn {
+      margin-top: 25px;
+      padding: 14px 30px;
+      font-size: 1.1rem;
+      text-decoration: none;
+      border: none;
+      border-radius: 30px;
+      background: linear-gradient(135deg, #ff512f 0%, #dd2476 100%);
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+      transition: all 0.3s ease;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <a href="#"><img src="Emblem_of_Punjab_(India)_on_a_white_background_(1).png" alt="Punjab Govt Logo"></a>
+    </div>
+    <div class="title">School Safety</div>
+    <div class="language">
+      <select id="language">
+        <option value="en">English</option>
+        <option value="hi">हिन्दी</option>
+        <option value="pa">ਪੰਜਾਬੀ</option>
+      </select>
+    </div>
+  </header>
+
+  <!-- Top half with cartoon school image -->
+  <div class="school-image">
+    <img src="download.jpeg" alt="Cartoon School">
+  </div>
+
+  <!-- Bottom half with selectors -->
+  <div class="selectors">
+    <div class="selector">
+      <label for="school">School</label>
+      <select id="school">
+        <option>Select School</option>
+        <option>School A</option>
+        <option>School B</option>
+        <option>School C</option>
+      </select>
+    </div>
+
+    <div class="selector">
+      <label for="year">Academic Year</label>
+      <select id="year">
+        <option>Select Year</option>
+        <option>2022-2023</option>
+        <option>2023-2024</option>
+        <option>2024-2025</option>
+      </select>
+    </div>
+
+    <div class="selector">
+      <label for="district">District</label>
+      <select id="district">
+        <option>Select District</option>
+        <option>District 1</option>
+        <option>District 2</option>
+        <option>District 3</option>
+      </select>
+    </div>
+
+    <div class="selector">
+      <label for="block">Block</label>
+      <select id="block">
+        <option>Select Block</option>
+        <option>Block A</option>
+        <option>Block B</option>
+        <option>Block C</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Submit button -->
+  <a href="ur.html" class="submit-btn">Submit</a>
+</body>
+</html>

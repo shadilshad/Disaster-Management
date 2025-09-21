@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Login - School Safety</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ---------- HEADER ---------- */
+    header {
+      width: 100%;
+      padding: 15px 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    .logo img {
+      height: 50px;
+      cursor: pointer;
+    }
+
+    .title {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #fff;
+      text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    }
+
+    .language select {
+      padding: 8px 14px;
+      border-radius: 20px;
+      border: none;
+      background: rgba(255, 255, 255, 0.85);
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .language select:hover {
+      background: #fff;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    /* ---------- BODY ---------- */
+    .login-body {
+      width: 100%;
+      max-width: 450px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 30px;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    }
+
+    .login-body img {
+      width: 70%;
+      max-width: 250px;
+      margin-bottom: 25px;
+      animation: float 3s ease-in-out infinite;
+      border-radius: 10%;
+      border: #6a11cb solid 2px;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-15px); }
+    }
+
+    .login-body label {
+      font-size: 1.1rem;
+      color: #fff;
+      margin-bottom: 8px;
+      font-weight: bold;
+      text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    }
+
+    .login-body input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      border: none;
+      font-size: 1rem;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      transition: all 0.3s ease;
+    }
+
+    .login-body input:focus {
+      outline: none;
+      transform: scale(1.02);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+    }
+
+    .continue-btn {
+      width: 100%;
+      padding: 14px 0;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 30px;
+      background: linear-gradient(135deg, #ff512f 0%, #dd2476 100%);
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+      transition: all 0.3s ease;
+    }
+
+    .continue-btn:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    /* ---------- FOOTER ---------- */
+    footer {
+      margin-top: 20px;
+      text-align: center;
+      color: #fff;
+    }
+
+    footer a {
+      color: #ffd700;
+      text-decoration: underline;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    footer a:hover {
+      color: #fff;
+    }
+
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <a href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/8/88/Emblem_of_Punjab.svg" alt="School Emblem"></a>
+    </div>
+    <div class="title">Student Safety</div>
+    <div class="language">
+      <select id="language">
+        <option value="en">English</option>
+        <option value="hi">हिन्दी</option>
+        <option value="pa">ਪੰਜਾਬੀ</option>
+      </select>
+    </div>
+  </header>
+
+  <!-- Login Body -->
+  <div class="login-body">
+    <img src="download.jpeg" alt="Cartoon School">
+    <label for="udise">Enter UDISE Code</label>
+    <input type="text" id="udise" placeholder="UDISE Code" required>
+    <button class="continue-btn">Continue</button>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    Don't know your school code? <a href="#">Click here</a>
+  </footer>
+</body>
+</html>
